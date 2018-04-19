@@ -39,7 +39,7 @@ public class ItemsServiceImpl implements ItemsService {
     @Override
     public void updateItemById(Integer id,ItemsCustom itemsCustom) throws Exception {
         //添加关键参数校验
-        //id不能为空，为空时抛出异常
+        //id不能为空，抛出异常
         itemsCustom.setId(id);
         itemsCustomMapper.updateItemById(itemsCustom);
     }
