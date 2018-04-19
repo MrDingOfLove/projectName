@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:mvc="http://www.springframework.org/schema/mvc"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc.xsd">
+
+    <!-- 启用spring mvc 注解 -->
+    <context:annotation-config></context:annotation-config>
+
+    <!--组件扫描包下的controller-->
+    <context:component-scan base-package="com.ding.ssm.controller"/>
+    <!--注解驱动 (加载很多参数绑定方法)-->
+    <mvc:annotation-driven conversion-service="conversionService"/>
+
+    <!--自定义参数绑定-->
+    <bean id="conversionService" class="org.springframework.format.support.FormattingConversionServiceFactoryBean">
+        <!--自定义转换器-->
+        <property name="converters">
+            <list>
+                <!--日期类型转换-->
+                <bean class="com.ding.ssm.controller.converter.DateConverter"/>
+            </list>
+        </property>
+    </bean>
+    <!-- 配置静态资源  -->
+    <mvc:resources location="/resources/css/" mapping="/css/**"/>
+    <mvc:resources location="/resources/js/" mapping="/resources/js/**"/>
+    <mvc:resources location="/resources/imgs/" mapping="/resources/imgs/**"/>
+
+    <!--视图配置-->
+    <bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+        <!-- 前缀 -->
+        <property name="prefix" value="/WEB-INF/" />
+        <!-- 后缀 -->
+        <property name="suffix" value=".jsp"/>
+    </bean>
+</beans>

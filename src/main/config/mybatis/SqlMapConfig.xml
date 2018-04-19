@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE configuration
+		PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+		"http://mybatis.org/dtd/mybatis-3-config.dtd">
+<configuration>
+	<!--定义pojo别名-->
+	<typeAliases>
+		<!--
+			批量别名
+			name：包名
+			mybatis 会自动扫描包中的pojo类，自动定义别名，别名为pojo类名（首字母大写或小写）
+		-->
+		<package name="com.ding.ssm.pojo"></package>
+	</typeAliases>
+	<!--加载映射文件 整合spring后 不需要配置-->
+	<!--<mappers>-->
+		<!--一次加载一个映射文件-->
+		<!--<mapper resource="com/ding/mapper/UserMapper.xml" />-->
+		<!--<mapper resource="com/ding/ssm/sqlmap/User.xml" />-->
+
+		<!--
+			通过mapper接口加载映射文件
+			遵循规范：mapper接口l类名和mapper.xml映射文件名字保持一致，且在同一目录
+		-->
+		<!--<mapper class="com.ding.mapper.UserMapper"></mapper>-->
+
+		<!--
+			批量加载
+			name：mapper接口的包名，mybatis自动扫描包下面的mapper接口
+			遵循规范：mapper接口l类名和mapper.xml映射文件名字保持一致，且在同一目录
+		-->
+		<!--<package name="com.ding.ssm.mapper"></package>-->
+	<!--</mappers>-->
+
+</configuration>
