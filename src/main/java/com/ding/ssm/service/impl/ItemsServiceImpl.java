@@ -41,7 +41,6 @@ public class ItemsServiceImpl implements ItemsService {
         //添加关键参数校验
         //id不能为空，为空时抛出异常
         itemsCustom.setId(id);
-        itemsCustom.setId(id);
         itemsCustomMapper.updateItemById(itemsCustom);
     }
 }
