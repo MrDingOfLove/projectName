@@ -11,18 +11,8 @@
     <!--组件扫描包下的controller-->
     <context:component-scan base-package="com.ding.ssm.controller"/>
     <!--注解驱动 (加载很多参数绑定方法)-->
-    <mvc:annotation-driven conversion-service="conversionService"/>
+    <mvc:annotation-driven conversion-service="conversionService" validator="validator"/>
 
-    <!--自定义参数绑定-->
-    <bean id="conversionService" class="org.springframework.format.support.FormattingConversionServiceFactoryBean">
-        <!--自定义转换器-->
-        <property name="converters">
-            <list>
-                <!--日期类型转换-->
-                <bean class="com.ding.ssm.controller.converter.DateConverter"/>
-            </list>
-        </property>
-    </bean>
     <!-- 配置静态资源  -->
     <mvc:resources location="/resources/css/" mapping="/css/**"/>
     <mvc:resources location="/resources/js/" mapping="/resources/js/**"/>
@@ -35,4 +25,41 @@
         <!-- 后缀 -->
         <property name="suffix" value=".jsp"/>
     </bean>
+
+    <!--自定义参数绑定-->
+    <bean id="conversionService" class="org.springframework.format.support.FormattingConversionServiceFactoryBean">
+        <!--自定义转换器-->
+        <property name="converters">
+            <list>
+                <!--日期类型转换-->
+                <bean class="com.ding.ssm.controller.converter.DateConverter"/>
+            </list>
+        </property>
+    </bean>
+
+    <!-- 校验器配置 -->
+    <bean id="validator" class="org.springframework.validation.beanvalidation.LocalValidatorFactoryBean">
+        <!--校验器-->
+        <property name="providerClass" value="org.hibernate.validator.HibernateValidator"/>
+        <!--指定校验使用的资源文件，在文件中配置校验错误信息-->
+        <property name="validationMessageSource" ref="messageSource"/>
+    </bean>
+    <!--错误文件配置-->
+    <bean id="messageSource" class="org.springframework.context.support.ReloadableResourceBundleMessageSource">
+        <property name="basenames">
+            <list>
+                <value>classpath:validatorMessage</value>
+            </list>
+        </property>
+        <!-- 资源文件编码格式 -->
+        <property name="defaultEncoding" value="UTF-8"/>
+        <!-- 对资源文件内容缓存时间，单位秒 -->
+        <property name="cacheSeconds" value="120" />
+    </bean>
+
+    <!--全局异常处理器配置
+        只要实现HandlerExceptionResolver接口 就是全局异常处理器
+    -->
+    <bean class="com.ding.ssm.exception.ExceptionResolver"/>
+
 </beans>

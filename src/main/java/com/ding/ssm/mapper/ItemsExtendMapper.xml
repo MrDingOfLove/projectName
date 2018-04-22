@@ -1,17 +1,17 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="com.ding.ssm.mapper.ItemsCustomMapper">
+<mapper namespace="com.ding.ssm.mapper.ItemsExtendMapper">
     <!--商品查询sql片段 查询条件-->
     <!--名字模糊查询-->
     <sql id="query_items_where">
-        <if test="itemsCustom!=null">
-            <if test="itemsCustom.name!=null and itemsCustom.name!=''">
-                items.name like '%${itemsCustom.name}%'
+        <if test="itemsExtend!=null">
+            <if test="itemsExtend.name!=null and itemsExtend.name!=''">
+                items.name like '%${itemsExtend.name}%'
             </if>
         </if>
     </sql>
     <!--商品列表查询-->
-    <select id="selectItemsList" parameterType="ItemsQueryVo" resultType="ItemsCustom">
+    <select id="selectItemsList" parameterType="ItemsQueryVo" resultType="ItemsExtend">
         select * from items
         <where>
             <include refid="query_items_where"/>
@@ -24,7 +24,7 @@
       detail
     </sql>
     <!--根据id查询商品信息-->
-    <select id="selectItemById" parameterType="int" resultType="ItemsCustom">
+    <select id="selectItemById" parameterType="int" resultType="Items">
         select
         <include refid="baseInfo" />
         ,
@@ -33,7 +33,7 @@
         where id = #{id}
     </select>
     <!--根据id更新商品信息-->
-    <update id="updateItemById" parameterType="ItemsCustom">
+    <update id="updateItemById" parameterType="ItemsExtend">
         update items
         set
           name = #{name},
@@ -43,4 +43,12 @@
           createtime = #{createtime}
         where id = #{id}
     </update>
+
+    <!--批量删除商品-->
+    <delete id="deleteItems" parameterType="Integer">
+        delete from items where items.id in
+        <foreach collection="array" item="item_id" open="(" separator="," close=")">
+            #{item_id}
+        </foreach>
+    </delete>
 </mapper>

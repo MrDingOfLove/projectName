@@ -1,9 +1,9 @@
 package com.ding.ssm.service.impl;
 
-import com.ding.ssm.mapper.ItemsCustomMapper;
-import com.ding.ssm.pojo.Items;
-import com.ding.ssm.pojo.ItemsCustom;
-import com.ding.ssm.pojo.ItemsQueryVo;
+import com.ding.ssm.mapper.ItemsExtendMapper;
+import com.ding.ssm.pojo.base.Items;
+import com.ding.ssm.pojo.extend.ItemsExtend;
+import com.ding.ssm.pojo.query.ItemsQueryVo;
 import com.ding.ssm.service.ItemsService;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,35 +12,39 @@ import java.util.List;
 
 public class ItemsServiceImpl implements ItemsService {
     @Autowired
-    private ItemsCustomMapper itemsCustomMapper;
+    private ItemsExtendMapper itemsExtendMapper;
     //查询商品列表
     @Override
-    public List<ItemsCustom> selectItemsList(ItemsQueryVo itemsQueryVo) throws Exception {
+    public List<ItemsExtend> selectItemsList(ItemsQueryVo itemsQueryVo) throws Exception {
 
-        return itemsCustomMapper.selectItemsList(itemsQueryVo);
+        return itemsExtendMapper.selectItemsList(itemsQueryVo);
     }
     //根据id查询商品信息
     @Override
-    public ItemsCustom selectItemById(Integer id) throws Exception {
-        Items items = itemsCustomMapper.selectItemById(id);
+    public ItemsExtend selectItemById(Integer id) throws Exception {
+        Items items = itemsExtendMapper.selectItemById(id);
         //业务处理
         //......
         //
         //将items的内容拷贝到items扩展类中
-        ItemsCustom itemsCustom = new ItemsCustom();
-        BeanUtils.copyProperties(items,itemsCustom);
-        return itemsCustom;
+        ItemsExtend itemsExtend = new ItemsExtend();
+        BeanUtils.copyProperties(items, itemsExtend);
+        return itemsExtend;
     }
     //更新商品信息
     /**
      * id:修改的商品的id
-     * itemsCustom：修改的商品信息
+     * itemsExtend：修改的商品信息
      */
     @Override
-    public void updateItemById(Integer id,ItemsCustom itemsCustom) throws Exception {
+    public void updateItemById(Integer id,ItemsExtend itemsExtend) throws Exception {
         //添加关键参数校验
         //id不能为空，抛出异常
-        itemsCustom.setId(id);
-        itemsCustomMapper.updateItemById(itemsCustom);
+        itemsExtend.setId(id);
+        itemsExtendMapper.updateItemById(itemsExtend);
     }
+    //批量删除商品
+    public void deleteItems(Integer[] items_id) throws  Exception{
+        itemsExtendMapper.deleteItems(items_id);
+    };
 }

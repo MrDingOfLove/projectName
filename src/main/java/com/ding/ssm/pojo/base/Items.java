@@ -1,16 +1,24 @@
-package com.ding.ssm.pojo;
+package com.ding.ssm.pojo.base;
 
+import com.ding.ssm.controller.validation.ModifyScene;
+
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 import java.util.Date;
 
 public class Items {
     private Integer id;
-
+    //校验名称在1-30个字符之间
+    //message 提示校验错误的提示信息
+    @Size(min = 1,max = 30,message = "{items.name.length.error}",groups = {ModifyScene.class})
     private String name;
 
+//    @NotNull(message = "{items.prics.isNULL}",groups = {ModifyScene.class})
     private Float price;
 
     private String pic;
-
+    //非空校验
+    @NotNull(message = "{items.createtime.isNULL}",groups = {ModifyScene.class})
     private Date createtime;
 
     private String detail;

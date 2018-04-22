@@ -1,4 +1,4 @@
-package com.ding.ssm.pojo;
+package com.ding.ssm.pojo.base;
 
 import java.util.Date;
 
