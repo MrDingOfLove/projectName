@@ -13,10 +13,15 @@
     <!--注解驱动 (加载很多参数绑定方法)-->
     <mvc:annotation-driven conversion-service="conversionService" validator="validator"/>
 
-    <!-- 配置静态资源  -->
+    <!-- 配置静态资源
+        location:资源文件位置
+        mapping:匹配映射前缀
+        eg: 要引用文件/resources/css/index.css
+            <link type="text/css" rel="stylesheet" href="./css/index.css">
+    -->
     <mvc:resources location="/resources/css/" mapping="/css/**"/>
-    <mvc:resources location="/resources/js/" mapping="/resources/js/**"/>
-    <mvc:resources location="/resources/imgs/" mapping="/resources/imgs/**"/>
+    <mvc:resources location="/resources/js/" mapping="/js/**"/>
+    <mvc:resources location="/resources/imgs/" mapping="/imgs/**"/>
 
     <!--视图配置-->
     <bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
@@ -62,4 +67,28 @@
     -->
     <bean class="com.ding.ssm.exception.ExceptionResolver"/>
 
+    <!--文件上传解析器-->
+    <bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
+        <!--设置文件的最大Size 单位B-->
+        <property name="maxUploadSize">
+            <value>5242880</value>
+        </property>
+    </bean>
+
+    <!--拦截器配置-->
+    <mvc:interceptors>
+        <!--多个拦截器，顺序执行-->
+        <!--
+            /** 表示拦截所有url，包括url子路径
+        -->
+        <!--登录验证拦截器-->
+        <mvc:interceptor>
+            <mvc:mapping path="/**"/>
+            <bean class="com.ding.ssm.controller.interceptor.loginInterceptor"/>
+        </mvc:interceptor>
+        <mvc:interceptor>
+            <mvc:mapping path="/**"/>
+            <bean class="com.ding.ssm.controller.interceptor.HandlerInterceptor2"/>
+        </mvc:interceptor>
+    </mvc:interceptors>
 </beans>
